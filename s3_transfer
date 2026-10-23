@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-# Run without arguments to select a mode.
-exec python3 "$(dirname -- "$0")/support/s3_transfer.py" cli "$@"
