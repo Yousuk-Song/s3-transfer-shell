@@ -57,7 +57,7 @@ cd /Users/yoos01/songys/test/s3_transfer
 ```text
 검색 문자열 (빈 입력: 메뉴로): pwd
 로컬: /Users/yoos01/songys/test
-S3: s3://smc-dws-pcluster-bucket/transfer/
+S3: s3://bucket/transfer/
 검색 문자열 (빈 입력: 메뉴로): sample
 ```
 
@@ -94,7 +94,7 @@ chmod +x s3_transfer
 현재 대상은 다음입니다. 다른 저장소를 사용하려면 `support/s3_transfer.py`의 `BUCKET`, `PREFIX`를 변경하세요.
 
 ```text
-s3://smc-dws-pcluster-bucket/transfer/
+s3://bucket/transfer/
 ```
 
 이 프로그램은 **S3에 저장된 파일**을 조회합니다. EC2 접속은 필요하지 않으며, EC2 디스크에만 있는 파일은 보이지 않습니다.
@@ -325,7 +325,7 @@ search "sample 01"
 대상을 찾을 수 없습니다: /data/repotr.txt
 가장 비슷한 로컬 파일을 찾았습니다.
   원본: /data/report.txt
-  목적지: s3://smc-dws-pcluster-bucket/transfer/report.txt
+  목적지: s3://bucket/transfer/report.txt
 이 대상을 업로드할까요? [y/N]: y
 ```
 
