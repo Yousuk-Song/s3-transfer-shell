@@ -56,7 +56,7 @@ cd /Dir/s3_transfer
 
 ```text
 검색 문자열 (빈 입력: 메뉴로): pwd
-로컬: /Users/yoos01/songys/test
+로컬: /Users/path/
 S3: s3://bucket/transfer/
 검색 문자열 (빈 입력: 메뉴로): sample
 ```
