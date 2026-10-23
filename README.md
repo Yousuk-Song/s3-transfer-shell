@@ -18,7 +18,7 @@ s3-transfer-shell
 A menu-driven S3 file manager with an interactive shell, tab completion, previews, bookmarks, and recursive transfers.
 ```
 
-저장소의 최상위에는 실행 파일만 두고 나머지 파일은 `support/`에 모았습니다. 이 설명서는 GitHub의 `support/README.md`에서 볼 수 있습니다. 실제 GitHub 저장소 생성이나 업로드는 이 패키지에 포함된 작업이 아닙니다.
+저장소의 최상위에는 실행 파일만 두고 나머지 파일은 `support/`에 모았습니다. 이 설명서는 GitHub의 `README.md`에서 볼 수 있습니다. 실제 GitHub 저장소 생성이나 업로드는 이 패키지에 포함된 작업이 아닙니다.
 
 ## 빠른 시작
 
@@ -352,77 +352,3 @@ search "sample 01"
 ./s3_transfer --search "sample" > search_results.tsv
 ```
 
-기존 단일 실행 옵션도 유지합니다. 다운로드 경로는 `transfer/` 아래의 상대 경로입니다. 이 옵션의 다운로드는 **현재 작업 디렉터리 아래에 원격 상대 경로를 유지**합니다. 예를 들어 `--download-file results/summary.txt`는 `./results/summary.txt`에 저장하며, 파일명만 저장하는 셸의 `get` 기본값과 다릅니다.
-
-파일 전송 옵션은 `aws s3 cp`, 디렉터리 옵션은 `aws s3 sync`를 사용합니다. 셸의 `get -r`·`put -r`은 파일별 복사로 미리보기·건너뛰기를 처리합니다. 어느 방식도 `--delete`를 사용하지 않습니다.
-
-위의 절대 경로 업로드 예시는 각각 `transfer/sample.bam`, `transfer/results/`로 전송됩니다. 원본 디렉터리의 상위 경로는 S3에 생성하지 않습니다.
-
-검색 결과는 표준 출력에 종류와 S3 경로를 탭으로 구분해 내보냅니다. 안내·개수는 표준 오류로 출력합니다. 결과 있음은 종료 코드 0, 없음은 1, 검색 실패는 2입니다. 셸·메뉴 종료 코드가 0이어도 내부의 모든 명령이 성공했다는 의미는 아닙니다.
-
-## 문제 해결
-
-| 상황 | 확인할 내용 |
-| --- | --- |
-| `python3`, `aws`, `less`를 찾을 수 없음 | 설치 여부와 PATH |
-| Python 코드를 열 수 없음 | 실행 파일 옆의 `support/`가 함께 있는지 |
-| 인증 만료·403·AccessDenied | AWS 로그인·프로파일·S3 경로 권한 |
-| 저장 위치가 예상과 다름 | 셸에서 `lpwd`, 필요하면 `lcd` |
-| Tab이 되지 않음 | 대화형 터미널인지, Python에 readline이 있는지 |
-| 새 파일이 자동완성에 없음 | 5초 후 재시도 또는 `ls`로 확인 |
-| `less`가 실행되지 않음 | 대화형 터미널과 로컬 less 설치 여부 |
-| 북마크를 저장할 수 없음 | 상태 파일 오류·쓰기 권한; 필요하면 `S3_TRANSFER_STATE_DIR` 지정 |
-| 없는 대상 이후 대기하는 것처럼 보임 | 자동 추천은 최대 3초·3페이지 후 복귀; Ctrl-C로 현재 명령 중단 가능 |
-| 지원하지 않는 명령·옵션 | `help` 확인; 파이프는 `cat 파일 \| less/head/tail` 조합만 지원 |
-
-## 파일 구성과 검증
-
-### 다음 보완 후보
-
-이번 버전에 포함된 기능을 기준으로 다음 작업을 추천합니다. 아래 항목은 아직 구현하지 않았습니다.
-
-1. **접속 대상 설정 파일**: 코드 수정 없이 버킷·prefix·AWS profile을 선택하고 현재 대상을 프롬프트에 표시하기. 여러 환경을 오갈 때 우선순위가 높습니다.
-2. **목록 캐시와 refresh**: 최근 조회한 이름을 즉시 추천하고, 명시적인 새로고침으로 갱신하기. 큰 버킷의 자동완성·유사 이름 제안 속도를 개선할 수 있습니다.
-3. **전송 결과 기록과 재시도**: 여러 파일 전송 시 성공·실패 목록을 저장하고 실패한 파일만 재시도하기. 가능한 경우 객체 체크섬으로 검증하되 ETag를 항상 MD5로 취급하지 않기.
-4. **내용 검색**: `grep 문자열 파일`과 `cat 파일 | grep 문자열`에 조회 크기·시간 제한을 두어 지원하기. 이름 검색과 내용 검색을 구분해 안내하기.
-
-### 배포 파일
-
-```text
-s3_transfer/
-├── s3_transfer
-└── support/
-    ├── README.md
-    ├── s3_transfer.py
-    ├── shell_features.py
-    ├── test_s3_transfer.py
-    ├── test_shell_features.py
-    ├── assets/s3-transfer-overview.png
-    ├── assets/IMAGE_PROMPT.txt
-    ├── transfer_file.sh / transfer_dir.sh
-    ├── get_file.sh / get_dir.sh / search_s3.sh
-    └── state/                    # 북마크 사용 시 생성; 배포 제외
-```
-
-- [실행 파일](../s3_transfer)
-- [공통 코드](s3_transfer.py), [확장 셸 명령](shell_features.py)
-- [기존 동작 테스트](test_s3_transfer.py), [확장 기능 테스트](test_shell_features.py)
-- [설명 그림](assets/s3-transfer-overview.png)
-
-설명 그림은 내장 imagegen으로 제작했습니다. 재제작에 사용할 [최종 프롬프트](assets/IMAGE_PROMPT.txt)도 함께 제공합니다.
-
-배포 폴더 최상위에서 테스트를 실행합니다. 모의 AWS 응답과 임시 파일을 사용하며 실제 S3에 업로드·다운로드하지 않습니다. 실제 터미널의 Tab 및 less 복귀도 검증합니다.
-
-```bash
-python3 -m unittest discover -s support -p 'test_*.py' -v
-```
-
-기존 호환 명령은 다음 위치에 있습니다.
-
-```bash
-bash support/transfer_file.sh sample.bam
-bash support/transfer_dir.sh results
-bash support/get_file.sh sample.bam
-bash support/get_dir.sh results
-bash support/search_s3.sh "sample"
-```
