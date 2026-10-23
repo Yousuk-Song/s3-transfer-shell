@@ -2,7 +2,7 @@
 
 로컬 터미널에서 S3 파일을 탐색하고, 내용을 확인하고, 업로드·다운로드하는 도구입니다. 옵션 없이 실행하면 모드 선택 메뉴가 열리며, 탐색 모드에서는 `cd`, `ls`, `less`, `get`, `put` 같은 명령을 사용할 수 있습니다.
 
-![S3 Transfer Shell 실행 메뉴와 로컬 및 S3 파일 흐름](assets/s3-transfer-overview.png)
+![S3 Transfer Shell 실행 메뉴와 로컬 및 S3 파일 흐름](/support/assets/s3-transfer-overview.png)
 
 ## GitHub 등록 정보
 
