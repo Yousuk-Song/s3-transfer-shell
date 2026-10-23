@@ -31,7 +31,7 @@ cd s3_transfer
 이미 설치된 현재 작업 폴더에서는 다음으로 실행합니다.
 
 ```bash
-cd /Users/yoos01/songys/test/s3_transfer
+cd /Dir/s3_transfer
 ./s3_transfer
 ```
 
